@@ -32,7 +32,7 @@ public class Clerk extends User {
     // Manage payment
     public Invoice generateInvoice(Shipment shipment) {
         Invoice inv = new Invoice(shipment);
-        System.out.println("🧾 Invoice generated for shipment " + shipment.getTrackingNumber());
+        System.out.println(" Invoice generated for shipment " + shipment.getTrackingNumber());
         return inv;
     }
 

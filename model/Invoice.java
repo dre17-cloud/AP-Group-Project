@@ -12,7 +12,15 @@ public class Invoice {
     private String paymentStatus; // Paid, Partially Paid, Unpaid
     private Date issueDate;
 
-    // Constructor
+    //Default Constructor
+    public Invoice() {
+        this.invoiceNumber = generateInvoiceNumber();
+        this.shipment = null;
+        this.totalAmount = 0.0;
+        this.paymentStatus = "Unpaid";
+        this.issueDate = new Date();
+    }
+    // Primary Constructor
     public Invoice(Shipment shipment) {
         this.invoiceNumber = generateInvoiceNumber();
         this.shipment = shipment;
@@ -21,7 +29,60 @@ public class Invoice {
         this.issueDate = new Date();
     }
 
-    // Generate invoice number automatically (e.g., INV0001, INV0002)
+    //Copy Constructor
+    public Invoice(Invoice other) {
+        this.invoiceNumber = other.invoiceNumber;
+        this.shipment = other.shipment;
+        this.totalAmount = other.totalAmount;
+        this.paymentStatus = other.paymentStatus;
+        this.issueDate = other.issueDate;
+    }
+
+  
+    // Getters
+    public String getInvoiceNumber() { 
+        return invoiceNumber;
+    }
+       
+    public Shipment getShipment() {
+        return shipment;
+    }
+
+    public double getTotalAmount() { 
+        return totalAmount; 
+    }
+
+    public String getPaymentStatus() { 
+        return paymentStatus; 
+    }
+    
+    public Date getIssueDate() { 
+        return issueDate; 
+    }
+    
+    // Setters
+
+    public void setInvoiceNumber(String invoiceNumber) {
+        this.invoiceNumber = invoiceNumber;
+    }
+
+     public void setShipment(Shipment shipment) {
+        this.shipment = shipment;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public void setIssueDate(Date issueDate) {
+        this.issueDate = issueDate;
+    }
+
+      // Generate invoice number automatically (e.g., INV0001, INV0002)
     private String generateInvoiceNumber() {
         String num = "INV" + String.format("%04d", invoiceCounter);
         invoiceCounter++; // increment for next invoice
@@ -44,6 +105,7 @@ public class Invoice {
         }
     }
 
+    
     // Display invoice details
     public void printInvoice() {
         DecimalFormat df = new DecimalFormat("#,###.00");
@@ -57,10 +119,4 @@ public class Invoice {
         System.out.println("Status: " + paymentStatus);
         System.out.println("=======================================");
     }
-
-    // Getters
-    public String getInvoiceNumber() { return invoiceNumber; }
-    public double getTotalAmount() { return totalAmount; }
-    public String getPaymentStatus() { return paymentStatus; }
-    public Date getIssueDate() { return issueDate; }
 }
