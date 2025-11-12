@@ -195,7 +195,7 @@ public class Main {
             }
 
             /* ------------------ INVALID ------------------ */
-            default -> System.out.println("⚠️ Invalid role selected.");
+            default -> System.out.println(" Invalid role selected.");
         }
 
         sc.close();

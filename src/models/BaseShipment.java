@@ -6,7 +6,6 @@ package models;
 public class BaseShipment implements Shipment {
     private static final long serialVersionUID = 1L;
     private static int trackingCounter = 1;
-
     private String trackingNumber;
     private String senderName;
     private String recipientName;
@@ -59,5 +58,61 @@ public class BaseShipment implements Shipment {
         System.out.println("Type: " + type);
         System.out.println("Cost: $" + cost);
         System.out.println("Status: " + status);
+    }
+
+    public void setTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
+    }
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
+    public String getRecipientName() {
+        return recipientName;
+    }
+
+    public void setRecipientName(String recipientName) {
+        this.recipientName = recipientName;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public int getZone() {
+        return zone;
+    }
+
+    public void setZone(int zone) {
+        this.zone = zone;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
     }
 }
