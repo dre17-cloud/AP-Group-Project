@@ -1,0 +1,46 @@
+package models;
+
+import java.util.ArrayList;
+
+public class Driver extends User  {
+    private static final long serialVersionUID = 1L;
+    private ArrayList<Shipment> deliveries;
+    private Vehicle assignedVehicle;
+
+    public Driver(String userId, String name, String email, String password) {
+        super(userId, name, email, password, "Driver");
+        deliveries = new ArrayList<>();
+    }
+
+    public void assignVehicle(Vehicle v) {
+        this.assignedVehicle = v;
+        System.out.println("🚚 Vehicle " + v.getVehicleId() + " assigned to driver " + name);
+    }
+
+    public void viewDeliveries() {
+        if (assignedVehicle == null || assignedVehicle.getAssignedShipments().isEmpty()) {
+            System.out.println("No deliveries assigned.");
+            return;
+        }
+        assignedVehicle.listAssignedShipments();
+    }
+
+    public void updateStatus(String trackingNumber, String newStatus) {
+        for (Shipment s : assignedVehicle.getAssignedShipments()) {
+            if (s.getTrackingNumber().equalsIgnoreCase(trackingNumber)) {
+                s.setStatus(newStatus);
+                System.out.println(" Shipment " + trackingNumber + " marked as " + newStatus);
+                return;
+            }
+        }
+        System.out.println(" Shipment not found for this driver.");
+    }
+
+    @Override
+    public void showMenu() {
+        System.out.println("===== DRIVER MENU =====");
+        System.out.println("1. View Deliveries");
+        System.out.println("2. Update Shipment Status");
+    }
+}
+

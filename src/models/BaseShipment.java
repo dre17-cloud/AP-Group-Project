@@ -1,7 +1,11 @@
-package model;
+package models;
 
-public class Shipment {
-    private static int trackingCounter = 1; // Keeps track of number of shipments created
+/**
+ * Concrete implementation of the Shipment interface.
+ */
+public class BaseShipment implements Shipment {
+    private static final long serialVersionUID = 1L;
+    private static int trackingCounter = 1;
 
     private String trackingNumber;
     private String senderName;
@@ -10,12 +14,11 @@ public class Shipment {
     private int zone;
     private double weight;
     private String type;   // Standard, Express, Fragile
-    private String status; // Pending, Assigned, In Transit, Delivered, Cancelled
+    private String status; // Pending, Assigned, In Transit, Delivered
     private double cost;
 
-    // Constructor
-    public Shipment(String senderName, String recipientName, String destination, int zone, double weight, String type) {
-        this.trackingNumber = generateTrackingNumber(); // auto-generate tracking number
+    public BaseShipment(String senderName, String recipientName, String destination, int zone, double weight, String type) {
+        this.trackingNumber = generateTrackingNumber();
         this.senderName = senderName;
         this.recipientName = recipientName;
         this.destination = destination;
@@ -26,16 +29,12 @@ public class Shipment {
         this.cost = calculateCost();
     }
 
-    // Generate tracking number automatically
     private String generateTrackingNumber() {
-        String number = "TRK" + String.format("%04d", trackingCounter);
-        trackingCounter++; // Increment for next shipment
-        return number;
+        return "TRK" + String.format("%04d", trackingCounter++);
     }
 
-    // Calculate cost based on weight, zone, and type
     private double calculateCost() {
-        double baseRate = 500; // Base rate in JMD
+        double baseRate = 500; // JMD
         double zoneMultiplier = 1 + (zone * 0.3);
         double typeMultiplier = switch (type.toLowerCase()) {
             case "express" -> 1.5;
@@ -45,15 +44,12 @@ public class Shipment {
         return baseRate * zoneMultiplier * typeMultiplier * (weight / 2);
     }
 
-    // Getters and Setters
-    public String getTrackingNumber() { return trackingNumber; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-    public double getCost() { return cost; }
-    public double getWeight() { return weight; }
-    public int getZone() { return zone; }
+    @Override public String getTrackingNumber() { return trackingNumber; }
+    @Override public String getStatus() { return status; }
+    @Override public void setStatus(String status) { this.status = status; }
+    @Override public double getCost() { return cost; }
 
-    // Print shipment details
+    @Override
     public void printDetails() {
         System.out.println("Tracking #: " + trackingNumber);
         System.out.println("Sender: " + senderName);

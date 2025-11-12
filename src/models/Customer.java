@@ -1,8 +1,10 @@
-package model;
+package models;
+
 
 import java.util.ArrayList;
 
-public class Customer extends User {
+public class Customer extends User  {
+    private static final long serialVersionUID = 1L;
     private ArrayList<Shipment> shipments;
 
     public Customer() {
@@ -16,14 +18,9 @@ public class Customer extends User {
         shipments = new ArrayList<>();
     }
 
-    public Customer(Customer other) {
-        super(other);
-        this.shipments = new ArrayList<>(other.shipments);
-    }
-
     public void createShipment(Shipment shipment) {
         shipments.add(shipment);
-        System.out.println(" Shipment created successfully!");
+        System.out.println("✅ Shipment created successfully!");
     }
 
     public void trackShipment(String trackingNumber) {
@@ -33,10 +30,8 @@ public class Customer extends User {
                 return;
             }
         }
-        System.out.println("Tracking number not found.");
+        System.out.println("⚠️ Tracking number not found.");
     }
-
-    
 
     @Override
     public void showMenu() {
