@@ -21,7 +21,6 @@ public class DatabaseConnection {
                 System.out.println(" Database connected successfully!");
             } catch (ClassNotFoundException e) {
                 System.err.println("MySQL JDBC Driver not found.");
-                e.printStackTrace();
             }
         }
         return connection;

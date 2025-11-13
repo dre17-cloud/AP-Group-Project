@@ -19,8 +19,7 @@ public class ClientHandler implements Runnable {
             this.conn = DatabaseConnection.getConnection();
             this.out = new ObjectOutputStream(socket.getOutputStream());
             this.in = new ObjectInputStream(socket.getInputStream());
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException | SQLException e) {
         }
     }
 
@@ -29,7 +28,7 @@ public class ClientHandler implements Runnable {
         try {
             while (true) {
                 String command = (String) in.readObject();
-                System.out.println("📩 Received: " + command);
+                System.out.println(" Received: " + command);
 
                 switch (command.toLowerCase()) {
                     case "register" -> handleRegister();
@@ -39,10 +38,10 @@ public class ClientHandler implements Runnable {
                         socket.close();
                         return;
                     }
-                    default -> out.writeObject("❌ Invalid command");
+                    default -> out.writeObject(" Invalid command");
                 }
             }
-        } catch (Exception e) {
+        } catch (IOException | ClassNotFoundException e) {
             System.err.println("⚠️ Client disconnected: " + e.getMessage());
         }
     }
@@ -62,9 +61,9 @@ public class ClientHandler implements Runnable {
             ps.setString(4, role);
             ps.executeUpdate();
 
-            out.writeObject("✅ Registration successful for " + name);
-        } catch (Exception e) {
-            try { out.writeObject("❌ Registration failed: " + e.getMessage()); } catch (IOException ex) {}
+            out.writeObject(" Registration successful for " + name);
+        } catch (IOException | ClassNotFoundException | SQLException e) {
+            try { out.writeObject(" Registration failed: " + e.getMessage()); } catch (IOException ex) {}
         }
     }
 
@@ -80,12 +79,12 @@ public class ClientHandler implements Runnable {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                out.writeObject("✅ Login successful! Welcome, " + rs.getString("name"));
+                out.writeObject(" Login successful! Welcome, " + rs.getString("name"));
             } else {
-                out.writeObject("❌ Invalid email or password");
+                out.writeObject(" Invalid email or password");
             }
-        } catch (Exception e) {
-            try { out.writeObject("❌ Login failed: " + e.getMessage()); } catch (IOException ex) {}
+        } catch (IOException | ClassNotFoundException | SQLException e) {
+            try { out.writeObject(" Login failed: " + e.getMessage()); } catch (IOException ex) {}
         }
     }
 }

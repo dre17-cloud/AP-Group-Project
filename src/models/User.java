@@ -67,7 +67,4 @@ public abstract class User implements Serializable {
      public void setRole(String role) { 
         this.role = role; 
     }
-
-    // Abstract method for role-specific menu
-    public abstract void showMenu();
 }

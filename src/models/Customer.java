@@ -20,7 +20,7 @@ public class Customer extends User  {
 
     public void createShipment(Shipment shipment) {
         shipments.add(shipment);
-        System.out.println("✅ Shipment created successfully!");
+        System.out.println(" Shipment created successfully!");
     }
 
     public void trackShipment(String trackingNumber) {
@@ -30,14 +30,18 @@ public class Customer extends User  {
                 return;
             }
         }
-        System.out.println("⚠️ Tracking number not found.");
+        System.out.println(" Tracking number not found.");
     }
 
-    @Override
-    public void showMenu() {
-        System.out.println("===== CUSTOMER MENU =====");
-        System.out.println("1. Create Shipment");
-        System.out.println("2. Track Shipment");
-        System.out.println("3. View Invoices");
+    public ArrayList<Shipment> getShipments() {
+        return shipments;
+    }
+
+    public void setShipments(ArrayList<Shipment> shipments) {
+        this.shipments = shipments;
+    }
+
+    public Object getPassword() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

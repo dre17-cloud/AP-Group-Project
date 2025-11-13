@@ -16,7 +16,33 @@ public class BaseShipment implements Shipment {
     private String status; // Pending, Assigned, In Transit, Delivered
     private double cost;
 
+    //add validations in constructor so that invalid shipments cannot be created
     public BaseShipment(String senderName, String recipientName, String destination, int zone, double weight, String type) {
+        if (senderName == null || senderName.isBlank()) {
+            throw new IllegalArgumentException("Sender name is required.");
+        }
+        if (recipientName == null || recipientName.isBlank()) {
+            throw new IllegalArgumentException("Recipient name is required.");
+        }
+        if (destination == null || destination.isBlank()) {
+            throw new IllegalArgumentException("Destination is required.");
+        }
+        if (zone < 1 || zone > 4) {
+            throw new IllegalArgumentException("Zone must be between 1 and 4.");
+        }
+        if (weight <= 0) {
+            throw new IllegalArgumentException("Weight must be greater than 0.");
+        }
+        if (type == null || type.isBlank()) {
+            throw new IllegalArgumentException("Shipment type is required (Standard / Express / Fragile).");
+        }
+        String typeLower = type.toLowerCase();
+        if (!typeLower.equals("standard") &&
+            !typeLower.equals("express") &&
+            !typeLower.equals("fragile")) {
+            throw new IllegalArgumentException("Shipment type must be Standard, Express, or Fragile.");
+        }
+
         this.trackingNumber = generateTrackingNumber();
         this.senderName = senderName;
         this.recipientName = recipientName;
@@ -27,6 +53,9 @@ public class BaseShipment implements Shipment {
         this.status = "Pending";
         this.cost = calculateCost();
     }
+
+    
+    
 
     private String generateTrackingNumber() {
         return "TRK" + String.format("%04d", trackingCounter++);

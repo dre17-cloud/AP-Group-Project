@@ -13,22 +13,22 @@ public class Manager extends User {
 
     public void addVehicle(Vehicle v) {
         fleet.add(v);
-        System.out.println("🚗 Vehicle " + v.getVehicleId() + " added to fleet.");
+        System.out.println(" Vehicle " + v.getVehicleId() + " added to fleet.");
     }
 
     public void generateReport(ArrayList<Shipment> shipments) {
-        System.out.println("\n📊 SMARTSHIP REPORT");
+        System.out.println("\n SMARTSHIP REPORT");
         System.out.println("--------------------");
         System.out.println("Total shipments: " + shipments.size());
         long delivered = shipments.stream().filter(s -> s.getStatus().equalsIgnoreCase("Delivered")).count();
         System.out.println("Delivered: " + delivered);
         System.out.println("Pending: " + (shipments.size() - delivered));
     }
+    public ArrayList<Vehicle> getFleet() {
+        return fleet;
+    }
 
-    @Override
-    public void showMenu() {
-        System.out.println("===== MANAGER MENU =====");
-        System.out.println("1. Add Vehicle");
-        System.out.println("2. Generate Report");
+    public void setFleet(ArrayList<Vehicle> fleet) {
+        this.fleet = fleet;
     }
 }

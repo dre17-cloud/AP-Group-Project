@@ -11,9 +11,9 @@ public class Clerk extends User  {
     public void processShipment(Shipment shipment) {
         if (shipment.getStatus().equalsIgnoreCase("Pending")) {
             shipment.setStatus("Processed");
-            System.out.println("✅ Shipment processed successfully!");
+            System.out.println(" Shipment processed successfully!");
         } else {
-            System.out.println("⚠️ Shipment already processed or invalid status.");
+            System.out.println(" Shipment already processed or invalid status.");
         }
     }
 
@@ -23,10 +23,4 @@ public class Clerk extends User  {
         return invoice;
     }
 
-    @Override
-    public void showMenu() {
-        System.out.println("===== CLERK MENU =====");
-        System.out.println("1. Process Shipment");
-        System.out.println("2. Generate Invoice");
-    }
 }

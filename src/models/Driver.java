@@ -36,11 +36,13 @@ public class Driver extends User  {
         System.out.println(" Shipment not found for this driver.");
     }
 
-    @Override
-    public void showMenu() {
-        System.out.println("===== DRIVER MENU =====");
-        System.out.println("1. View Deliveries");
-        System.out.println("2. Update Shipment Status");
+    public ArrayList<Shipment> getDeliveries() {
+        return deliveries;
     }
+
+    public void setDeliveries(ArrayList<Shipment> deliveries) {
+        this.deliveries = deliveries;
+    }
+
 }
 
