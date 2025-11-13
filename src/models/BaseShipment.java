@@ -1,7 +1,7 @@
 package models;
 
 /**
- * Concrete implementation of the Shipment interface.
+ * Concrete implementation of the Shipment interface 
  */
 public class BaseShipment implements Shipment {
     private static final long serialVersionUID = 1L;
@@ -74,7 +74,73 @@ public class BaseShipment implements Shipment {
 
     @Override public String getTrackingNumber() { return trackingNumber; }
     @Override public String getStatus() { return status; }
-    @Override public void setStatus(String status) { this.status = status; }
+    
+
+@Override
+public void setStatus(String newStatus) {
+    if (newStatus == null || newStatus.isBlank()) {
+        throw new IllegalArgumentException("Status cannot be empty.");
+    }
+
+    newStatus = newStatus.trim();
+
+    // Enforce allowed transitions based on current status
+    switch (this.status) {
+
+        case "Pending" -> {
+            // After creation: can be processed OR directly assigned
+            if (!newStatus.equals("Processed") && !newStatus.equals("Assigned")) {
+                throw new IllegalArgumentException(
+                        "Pending shipment can only move to 'Processed' or 'Assigned'."
+                );
+            }
+        }
+
+        case "Processed" -> {
+            // After clerk processes: must be assigned to a vehicle
+            if (!newStatus.equals("Assigned")) {
+                throw new IllegalArgumentException(
+                        "Processed shipment can only move to 'Assigned'."
+                );
+            }
+        }
+
+        case "Assigned" -> {
+            // Driver picks it up
+            if (!newStatus.equals("In Transit")) {
+                throw new IllegalArgumentException(
+                        "Assigned shipment can only move to 'In Transit'."
+                );
+            }
+        }
+
+        case "In Transit" -> {
+            // Driver delivers it
+            if (!newStatus.equals("Delivered")) {
+                throw new IllegalArgumentException(
+                        "In Transit shipment can only move to 'Delivered'."
+                );
+            }
+        }
+
+        case "Delivered" -> {
+            // Final state, no going back
+            throw new IllegalArgumentException(
+                    "Delivered shipment cannot change status."
+            );
+        }
+
+        default -> {
+            // In case someone initialized status with some random string
+            throw new IllegalStateException("Unknown current status: " + this.status);
+        }
+    }
+
+    // If we reach here, transition is valid
+    this.status = newStatus;
+}
+
+
     @Override public double getCost() { return cost; }
 
     @Override
