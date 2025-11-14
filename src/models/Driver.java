@@ -14,7 +14,7 @@ public class Driver extends User  {
 
     public void assignVehicle(Vehicle v) {
         this.assignedVehicle = v;
-        System.out.println("🚚 Vehicle " + v.getVehicleId() + " assigned to driver " + name);
+        System.out.println("Vehicle " + v.getVehicleId() + " assigned to driver " + name);
     }
 
     public void viewDeliveries() {
