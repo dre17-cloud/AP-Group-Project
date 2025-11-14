@@ -43,6 +43,19 @@ public class Vehicle implements Serializable {
         }
     }
 
+    public double getCurrentLoadKg() {
+    double total = 0;
+    for (Shipment s : assignedShipments) {
+        // BaseShipment has getWeight(), but Shipment interface does not.
+        // So we must cast it.
+        if (s instanceof BaseShipment bs) {
+            total += bs.getWeight();
+        }
+    }
+    return total;
+}
+
+
     public String getVehicleId() { 
         return vehicleId; 
     }

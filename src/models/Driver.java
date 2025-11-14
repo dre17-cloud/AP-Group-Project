@@ -26,15 +26,26 @@ public class Driver extends User  {
     }
 
     public void updateStatus(String trackingNumber, String newStatus) {
-        for (Shipment s : assignedVehicle.getAssignedShipments()) {
-            if (s.getTrackingNumber().equalsIgnoreCase(trackingNumber)) {
-                s.setStatus(newStatus);
-                System.out.println(" Shipment " + trackingNumber + " marked as " + newStatus);
-                return;
-            }
-        }
-        System.out.println(" Shipment not found for this driver.");
+    if (assignedVehicle == null) {
+        System.out.println(" No vehicle assigned to this driver.");
+        return;
     }
+
+    for (Shipment s : assignedVehicle.getAssignedShipments()) {
+        if (s.getTrackingNumber().equalsIgnoreCase(trackingNumber)) {
+            try {
+                s.setStatus(newStatus);
+                System.out.println("Shipment " + trackingNumber + " marked as " + newStatus);
+            } catch (IllegalArgumentException ex) {
+                System.out.println("Status update failed: " + ex.getMessage());
+            }
+            return;
+        }
+    }
+
+    System.out.println(" Shipment not found for this driver.");
+}
+
 
     public ArrayList<Shipment> getDeliveries() {
         return deliveries;

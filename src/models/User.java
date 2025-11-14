@@ -67,4 +67,7 @@ public abstract class User implements Serializable {
      public void setRole(String role) { 
         this.role = role; 
     }
+    public void setPassword(String password) { 
+        this.password = password; 
+    }
 }

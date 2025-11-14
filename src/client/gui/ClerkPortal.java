@@ -2,6 +2,7 @@ package client.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import main.Main;
 
 public class ClerkPortal extends JFrame {
 
@@ -46,7 +47,8 @@ public class ClerkPortal extends JFrame {
             new LoginFrame().setVisible(true);
         });
 
-        assignBtn.addActionListener(e -> JOptionPane.showMessageDialog(this, "Assign Shipment feature (to be implemented)."));
+        assignBtn.addActionListener(e ->
+    new AssignShipmentFrame(Main.shipments, Main.vehicles).setVisible(true));
         updateStatusBtn.addActionListener(e -> JOptionPane.showMessageDialog(this, "Update Status feature (to be implemented)."));
         managePaymentsBtn.addActionListener(e -> JOptionPane.showMessageDialog(this, "Manage Payments feature (to be implemented)."));
     }
