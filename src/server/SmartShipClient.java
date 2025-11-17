@@ -52,7 +52,7 @@ public class SmartShipClient {
 
                     case 0 -> {
                         out.writeObject("exit");
-                        System.out.println("👋 Disconnected from server.");
+                        System.out.println(" Disconnected from server.");
                         return;
                     }
 

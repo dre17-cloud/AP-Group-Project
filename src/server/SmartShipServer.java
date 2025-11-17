@@ -11,20 +11,20 @@ public class SmartShipServer {
     private static ExecutorService pool = Executors.newFixedThreadPool(10);
 
     public static void main(String[] args) {
-        System.out.println("🚀 SmartShip Server starting on port " + PORT);
+        System.out.println(" SmartShip Server starting on port " + PORT);
 
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             DatabaseConnection.getConnection(); // ensure DB connection
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                System.out.println("🧑‍💻 New client connected: " + clientSocket.getInetAddress());
+                System.out.println(" New client connected: " + clientSocket.getInetAddress());
                 ClientHandler handler = new ClientHandler(clientSocket);
                 pool.execute(handler);
             }
         } catch (IOException e) {
-            System.err.println("❌ Server error: " + e.getMessage());
+            System.err.println(" Server error: " + e.getMessage());
         } catch (SQLException e) {
-            System.err.println("❌ Database connection failed: " + e.getMessage());
+            System.err.println(" Database connection failed: " + e.getMessage());
         }
     }
 

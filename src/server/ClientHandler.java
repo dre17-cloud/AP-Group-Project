@@ -42,7 +42,7 @@ public class ClientHandler implements Runnable {
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
-            System.err.println("⚠️ Client disconnected: " + e.getMessage());
+            System.err.println(" Client disconnected: " + e.getMessage());
         }
     }
 

@@ -2,6 +2,8 @@ package client.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class ClerkPortal extends JFrame {
@@ -9,6 +11,7 @@ public class ClerkPortal extends JFrame {
   
 	private static final long serialVersionUID = 1L;
 
+        @SuppressWarnings("Convert2Lambda")
 	public ClerkPortal() {
         setTitle("SmartShip - Clerk Portal");
         setSize(600, 400);
@@ -41,15 +44,17 @@ public class ClerkPortal extends JFrame {
         gbc.gridy = 2; gbc.gridx = 1; panel.add(logoutBtn, gbc);
 
         add(panel);
-
-        logoutBtn.addActionListener(e -> {
-            dispose();
-            new LoginFrame().setVisible(true);
+        logoutBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new LoginFrame().setVisible(true);
+            }
         });
 
         //assignBtn.addActionListener(e ->
     //new AssignShipmentFrame(Main.shipments, Main.vehicles).setVisible(true));
-        updateStatusBtn.addActionListener(e -> JOptionPane.showMessageDialog(this, "Update Status feature (to be implemented)."));
-        managePaymentsBtn.addActionListener(e -> JOptionPane.showMessageDialog(this, "Manage Payments feature (to be implemented)."));
+        // updateStatusBtn.addActionListener(e -> JOptionPane.showMessageDialog(this, "Update Status feature (to be implemented)."));
+        // managePaymentsBtn.addActionListener(e -> JOptionPane.showMessageDialog(this, "Manage Payments feature (to be implemented)."));
     }
 }

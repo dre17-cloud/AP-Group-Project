@@ -2,11 +2,14 @@ package client.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class DriverPortal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
+        @SuppressWarnings("Convert2Lambda")
 	public DriverPortal() {
         setTitle("SmartShip - Driver Portal");
         setSize(600, 400);
@@ -38,12 +41,29 @@ public class DriverPortal extends JFrame {
 
         add(panel);
 
-        logoutBtn.addActionListener(e -> {
-            dispose();
-            new LoginFrame().setVisible(true);
+        viewShipmentsBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ViewShipmentsFrame().setVisible(true);
+            }
         });
 
-        viewShipmentsBtn.addActionListener(e -> JOptionPane.showMessageDialog(this, "View Assigned Shipments feature (to be implemented)."));
-        updateStatusBtn.addActionListener(e -> JOptionPane.showMessageDialog(this, "Update Delivery Status feature (to be implemented)."));
+        updateStatusBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new UpdateStatusFrame().setVisible(true);
+            }
+        });
+        
+        logoutBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new LoginFrame().setVisible(true);
+            }
+        });
+     
+        //viewShipmentsBtn.addActionListener(e -> JOptionPane.showMessageDialog(this, "View Assigned Shipments feature (to be implemented)."));
+        //updateStatusBtn.addActionListener(e -> JOptionPane.showMessageDialog(this, "Update Delivery Status feature (to be implemented)."));
     }
 }

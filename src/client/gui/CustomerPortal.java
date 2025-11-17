@@ -2,12 +2,15 @@ package client.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CustomerPortal extends JFrame {
 
 
 	private static final long serialVersionUID = 1L;
 
+        @SuppressWarnings("Convert2Lambda")
 	public CustomerPortal() {
         setTitle("SmartShip - Customer Portal");
         setSize(600, 400);
@@ -39,9 +42,22 @@ public class CustomerPortal extends JFrame {
 
         add(panel);
 
-        logoutBtn.addActionListener(e -> {
-            dispose();
-            new LoginFrame().setVisible(true);
+     createShipmentBtn.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new CreateShipment().setVisible(true);
+        }
+    });
+
+
+    
+    
+        logoutBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new LoginFrame().setVisible(true);
+            }
         });
     }
 }
