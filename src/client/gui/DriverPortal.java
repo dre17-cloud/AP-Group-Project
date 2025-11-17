@@ -9,7 +9,6 @@ public class DriverPortal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-        @SuppressWarnings("Convert2Lambda")
 	public DriverPortal() {
         setTitle("SmartShip - Driver Portal");
         setSize(600, 400);

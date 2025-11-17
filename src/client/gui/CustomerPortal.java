@@ -10,7 +10,6 @@ public class CustomerPortal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-        @SuppressWarnings("Convert2Lambda")
 	public CustomerPortal() {
         setTitle("SmartShip - Customer Portal");
         setSize(600, 400);

@@ -13,7 +13,6 @@ public class CreateShipment extends JFrame{
     private static final long serialVersionUID = 1L;
 
 
-    @SuppressWarnings("Convert2Lambda")
     public CreateShipment(){
         setSize(600, 400);
         setTitle("Customer - CREATE SHIPMENT");
