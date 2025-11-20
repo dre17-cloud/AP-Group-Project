@@ -1,3 +1,5 @@
+package client.gui;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -71,3 +73,4 @@ public class TrackShipment extends JFrame {
         new TrackShipment();
     }
 }
+
