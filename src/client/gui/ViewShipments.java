@@ -1,3 +1,4 @@
+package client.gui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,11 +14,11 @@ public class ViewShipments extends JFrame{
         setTitle("View Shipments");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setIconImage(new ImageIcon("src/textures/box.png").getImage());
+        setIconImage(new ImageIcon("client/textures/box.png").getImage());
 
 
         //Background image
-        setContentPane(new JLabel(new ImageIcon("src/textures/paper.jpg")));
+        setContentPane(new JLabel(new ImageIcon("client/textures/paper.jpg")));
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -125,7 +126,7 @@ public class ViewShipments extends JFrame{
         //Space for next items
         //gbc.insets = new Insets(0,0,30,0);
 
-        Image back = new ImageIcon("src/textures/return.png").getImage();
+        Image back = new ImageIcon("client/textures/return.png").getImage();
         backButton = new JButton(new ImageIcon(back));
         gbc.gridy = 10;
         gbc.gridx = 0;
@@ -145,8 +146,8 @@ public class ViewShipments extends JFrame{
         add(backButton,gbc);
 
         //get images
-       Image prev = new ImageIcon("src/textures/prev.png").getImage();
-       Image next = new ImageIcon("src/textures/next.png").getImage();
+       Image prev = new ImageIcon("client/textures/prev.png").getImage();
+       Image next = new ImageIcon("client/textures/next.png").getImage();
 
 
        JButton prevButton = new JButton(new ImageIcon(prev));
@@ -159,7 +160,7 @@ public class ViewShipments extends JFrame{
        prevButton.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               //Goes to the previous set in database
+               //Goes to the previous set in the database
            }
        });
 
@@ -191,3 +192,4 @@ public class ViewShipments extends JFrame{
 
 
 }
+
