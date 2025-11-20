@@ -3,15 +3,18 @@ package client.gui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-/**
- * SmartShip Login GUI using GridBagLayout
- */
+import server.DatabaseConnection;
+
 public class LoginFrame extends JFrame {
 
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
-	private JTextField emailField;
+    private JTextField emailField;
     private JPasswordField passwordField;
     private JComboBox<String> roleBox;
     private JButton loginBtn, registerBtn;
@@ -23,7 +26,6 @@ public class LoginFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
 
-        // Root panel
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -36,7 +38,6 @@ public class LoginFrame extends JFrame {
         gbc.gridy = 0;
         gbc.gridwidth = 2;
         panel.add(titleLabel, gbc);
-
         gbc.gridwidth = 1;
 
         // Email
@@ -78,13 +79,15 @@ public class LoginFrame extends JFrame {
         panel.add(registerBtn, gbc);
 
         add(panel);
+
         setupActions();
     }
 
     private void setupActions() {
         loginBtn.addActionListener(this::handleLogin);
+
         registerBtn.addActionListener(e ->
-            JOptionPane.showMessageDialog(this, "Registration window coming soon.")
+            new RegisterCustomerFrame().setVisible(true)
         );
     }
 
@@ -98,17 +101,59 @@ public class LoginFrame extends JFrame {
             return;
         }
 
-        // later: verify with database or socket client
-        JOptionPane.showMessageDialog(this, "Login successful as " + role + "!");
-        dispose();
+        Connection conn = DatabaseConnection.getConnection();
+        if (conn == null) {
+            JOptionPane.showMessageDialog(this, "Database connection failed!");
+            return;
+        }
 
-        switch (role) {
-            case "Customer" -> new CustomerPortal().setVisible(true);
-            case "Clerk" -> new ClerkPortal().setVisible(true);
-            case "Driver" -> new DriverPortal().setVisible(true);
-            case "Manager" -> new ManagerPortal().setVisible(true);
+        try {
+            // IMPORTANT: user is a reserved SQL keyword → wrap with backticks
+            String sql = "SELECT * FROM `user` WHERE email=? AND password=? AND role=?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, email);
+            stmt.setString(2, password);
+            stmt.setString(3, role);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+
+                // GET THE SENDER NAME FROM DATABASE
+                String senderName = rs.getString("name");
+
+                JOptionPane.showMessageDialog(this, "Login successful!");
+
+                dispose(); // close login window
+
+                // PASS SENDER NAME INTO NEXT SCREEN
+                switch (role) {
+                    case "Customer" -> new CustomerPortal(senderName).setVisible(true);
+                    case "Clerk" -> new ClerkPortal().setVisible(true);
+                    case "Driver" -> new DriverPortal().setVisible(true);
+                    case "Manager" -> new ManagerPortal().setVisible(true);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Invalid login credentials!",
+                        "Login Failed",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+
+            stmt.close();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Database Error: " + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            ex.printStackTrace();
         }
     }
-
-
 }
