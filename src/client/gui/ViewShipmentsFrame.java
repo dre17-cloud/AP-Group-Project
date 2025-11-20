@@ -1,42 +1,89 @@
 package client.gui;
 
-import client.data.DriverShipmentDatabase;
-import models.BaseShipment;
-
-import java.util.ArrayList;
+import server.DatabaseConnection;
 
 import javax.swing.*;
-
+import java.awt.*;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class ViewShipmentsFrame extends JFrame {
+	private static final long serialVersionUID = 1L;
 
-    public ViewShipmentsFrame() {
+	public ViewShipmentsFrame() {
         setTitle("Assigned Shipments");
-        setSize(650, 400);
+        setSize(750, 400);
         setLocationRelativeTo(null);
-
-        ArrayList<BaseShipment> list = DriverShipmentDatabase.getAllShipments();
+        setLayout(new BorderLayout());
 
         String[] columns = {
-                "Tracking #", "Sender", "Recipient",
-                "Destination", "Weight", "Type", "Status"
+                "Tracking #",
+                "Sender",
+                "Recipient",
+                "Destination",
+                "Zone",
+                "Weight",
+                "Type",
+                "Status",
+                "Cost"
         };
 
-        String[][] data = new String[list.size()][7];
+        // Load data from MySQL
+        String[][] tableData = loadShipmentsFromDatabase();
 
-        for (int i = 0; i < list.size(); i++) {
-            BaseShipment s = list.get(i);
-            data[i][0] = s.getTrackingNumber();
-            data[i][1] = s.getSenderName();
-            data[i][2] = s.getRecipientName();
-            data[i][3] = s.getDestination();
-            data[i][4] = String.valueOf(s.getWeight());
-            data[i][5] = s.getType();
-            data[i][6] = s.getStatus();
+        JTable table = new JTable(tableData, columns);
+        add(new JScrollPane(table), BorderLayout.CENTER);
+    }
+
+    private String[][] loadShipmentsFromDatabase() {
+
+        ArrayList<String[]> rows = new ArrayList<>();
+
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+
+            String sql = """
+                SELECT 
+                    `Tracking Number`,
+                    `Sender Name`,
+                    `Recipient Name`,
+                    `Destination`,
+                    `Zone`,
+                    `Weight`,
+                    `Type`,
+                    `Status`,
+                    `Cost`
+                FROM baseshipment
+            """;
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                rows.add(new String[]{
+                        String.valueOf(rs.getInt("Tracking Number")),
+                        rs.getString("Sender Name"),
+                        rs.getString("Recipient Name"),
+                        rs.getString("Destination"),
+                        String.valueOf(rs.getInt("Zone")),
+                        String.valueOf(rs.getInt("Weight")),
+                        rs.getString("Type"),
+                        rs.getString("Status"),
+                        String.valueOf(rs.getDouble("Cost"))
+                });
+            }
+
+            rs.close();
+            ps.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error loading shipments: " + e.getMessage(),
+                    "Database Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        JTable table = new JTable(data, columns);
-        add(new JScrollPane(table));
+  
+        return rows.toArray(new String[0][0]);
     }
 }
-
