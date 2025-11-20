@@ -61,8 +61,6 @@ public class DriverPortal extends JFrame {
                 new LoginFrame().setVisible(true);
             }
         });
-     
-        //viewShipmentsBtn.addActionListener(e -> JOptionPane.showMessageDialog(this, "View Assigned Shipments feature (to be implemented)."));
-        //updateStatusBtn.addActionListener(e -> JOptionPane.showMessageDialog(this, "Update Delivery Status feature (to be implemented)."));
+
     }
 }
