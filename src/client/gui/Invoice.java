@@ -1,6 +1,7 @@
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Invoice extends JFrame{
 
@@ -13,6 +14,7 @@ public class Invoice extends JFrame{
         setLocationRelativeTo(null);
         setLayout(new GridBagLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setIconImage(new ImageIcon("src/textures/box.png").getImage());
 
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -68,7 +70,7 @@ public class Invoice extends JFrame{
         gbc.anchor = GridBagConstraints.WEST;
         add(amountPaidLabel, gbc);
 
-        amountPaid = new JLabel(" ");
+        amountPaid = new JLabel("$");
         gbc.gridy = 4;
         gbc.gridx = 1;
         add(amountPaid, gbc);
@@ -107,6 +109,38 @@ public class Invoice extends JFrame{
         gbc.gridy = 7;
         gbc.gridx = 1;
         add(date,gbc);
+
+        Image back = new ImageIcon("src/textures/return.png").getImage();
+        JButton backButton = new JButton(new ImageIcon(back));
+        gbc.gridy = 10;
+        gbc.gridx = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(20, 0, 0, 0);
+        backButton.setOpaque(false);
+        backButton.setContentAreaFilled(false);
+        backButton.setBorderPainted(false);
+        backButton.setFocusPainted(false);
+        backButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new CreateShipment().setVisible(true);
+                dispose();
+            }
+        });
+
+        add(backButton,gbc);
+
+        JButton payButton = new JButton("$ Pay");
+        gbc.gridy = 10;
+        gbc.gridx = 1;
+        add(payButton, gbc);
+        payButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Payment().setVisible(true);
+                dispose();
+            }
+        });
 
         setVisible(true);
     }
